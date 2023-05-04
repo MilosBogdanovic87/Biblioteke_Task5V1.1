@@ -1,0 +1,51 @@
+package task55;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Select {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		String url = "jdbc:mysql://localhost:3306/biblioteke_task5";
+		String username = "root";
+		String password = "";
+
+		System.out.println("Konekcija...");
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			System.out.println("Konekcija je uspesna");
+
+			String sqlSelect = "Select * from dečijeOd";
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sqlSelect);
+
+			while (rs.next()) {
+
+				String n = rs.getString(2);
+				
+				
+				StringBuilder sb = new StringBuilder();
+
+				sb.append("\nUzrast: ");
+				sb.append(n);
+				
+				
+
+				System.out.println(sb.toString());
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

@@ -1,0 +1,188 @@
+create database biblioteke_task5;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`Biblioteke` (
+  `PIB` INT NOT NULL,
+  `naziv` VARCHAR(45) NOT NULL,
+  `ulica` VARCHAR(45) NOT NULL,
+  `broj` VARCHAR(45) NOT NULL,
+  `mesto` VARCHAR(45) NOT NULL,
+  `telefon` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`PIB`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`Bibliotekari` (
+  `bibliotekarID` INT NOT NULL,
+  `ime` VARCHAR(45) NOT NULL,
+  `prezime` VARCHAR(45) NOT NULL,
+  `ulica` VARCHAR(45) NOT NULL,
+  `broj` VARCHAR(45) NOT NULL,
+  `mesto` VARCHAR(45) CHARACTER SET 'armscii8' NOT NULL,
+  `jmbg` VARCHAR(45) NOT NULL,
+  `telefon` VARCHAR(45) NULL,
+  `PIB` INT NOT NULL,
+  PRIMARY KEY (`bibliotekarID`),
+  INDEX `bibliotekaID_idx` (`PIB` ASC) VISIBLE,
+  CONSTRAINT `bibliotekaID`
+    FOREIGN KEY (`PIB`)
+    REFERENCES `biblioteke_task5`.`Biblioteke` (`PIB`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`Clanovi` (
+  `clanID` INT NOT NULL,
+  `Ime` VARCHAR(45) NOT NULL,
+  `prezime` VARCHAR(45) NOT NULL,
+  `datumRodjenja` DATE NOT NULL,
+  `telefon` VARCHAR(45) NULL,
+  `ulica` VARCHAR(45) NOT NULL,
+  `broj` VARCHAR(45) NOT NULL,
+  `mesto` VARCHAR(45) NOT NULL,
+  `brojClanske` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`clanID`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`bibliotekeClanovi` (
+  `bibliotekeClanoviID` INT NOT NULL,
+  `PIB` INT NOT NULL,
+  `clanID` INT NOT NULL,
+  PRIMARY KEY (`bibliotekeClanoviID`),
+  INDEX `bibliotekeID_idx` (`PIB` ASC) VISIBLE,
+  INDEX `clanoviID_idx` (`clanID` ASC) VISIBLE,
+  CONSTRAINT `bibliotekeID`
+    FOREIGN KEY (`PIB`)
+    REFERENCES `biblioteke_task5`.`Biblioteke` (`PIB`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `clanoviID`
+    FOREIGN KEY (`clanID`)
+    REFERENCES `biblioteke_task5`.`Clanovi` (`clanID`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`naucinoOd` (
+  `naucnoID` INT NOT NULL,
+  `nazivOblasti` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`naucnoID`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`PozajmnoOd` (
+  `pozajmnoID` INT NOT NULL,
+  `aktuelnost` VARCHAR(45) NOT NULL,
+  `zanr` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`pozajmnoID`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`decijeOd` (
+  `decijeID` INT NOT NULL,
+  `uzrast` INT NOT NULL,
+  PRIMARY KEY (`decijeID`))
+ENGINE = InnoDB;
+
+
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`Knjige` (
+  `ISBN` INT NOT NULL,
+  `naziv` VARCHAR(45) NOT NULL,
+  `jezik` VARCHAR(45) NOT NULL,
+  `izdavač` VARCHAR(45) NOT NULL,
+  `PIB` INT NOT NULL,
+  PRIMARY KEY (`ISBN`),
+  INDEX `bibliotekaID_idx` (`PIB` ASC) VISIBLE,
+  CONSTRAINT `biblioteka1ID`
+    FOREIGN KEY (`PIB`)
+    REFERENCES `biblioteke_task5`.`Biblioteke` (`PIB`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`knjigeOdeljenja` (
+  `knjigeOdeljenjaID` INT NOT NULL,
+  `decijeID` INT NOT NULL,
+  `naucnoID` INT NOT NULL,
+  `pozajmnoID` INT NOT NULL,
+  `ISBN` INT NOT NULL,
+  PRIMARY KEY (`knjigeOdeljenjaID`),
+  INDEX `knjigaID_idx` (`ISBN` ASC) VISIBLE,
+  INDEX `decijeID_idx` (`decijeID` ASC) VISIBLE,
+  INDEX `pozajmnoID_idx` (`pozajmnoID` ASC) VISIBLE,
+  INDEX `naucnoID_idx` (`naucnoID` ASC) VISIBLE,
+  CONSTRAINT `knjigaID`
+    FOREIGN KEY (`ISBN`)
+    REFERENCES `biblioteke_task5`.`Knjige` (`ISBN`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `decijeID`
+    FOREIGN KEY (`decijeID`)
+    REFERENCES `biblioteke_task5`.`decijeOd` (`decijeID`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `pozajmnoID`
+    FOREIGN KEY (`pozajmnoID`)
+    REFERENCES `biblioteke_task5`.`PozajmnoOd` (`pozajmnoID`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `naucnoID`
+    FOREIGN KEY (`naucnoID`)
+    REFERENCES `biblioteke_task5`.`naucinoOd` (`naucnoID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`Autori` (
+  `autorID` INT NOT NULL,
+  `imeAutora` VARCHAR(45) NOT NULL,
+  `prezimeAutora` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`autorID`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`knjigeAutori` (
+  `knjigaAutorID` INT NOT NULL,
+  `autorID` INT NOT NULL,
+  `ISBN` INT NOT NULL,
+  PRIMARY KEY (`knjigaAutorID`),
+  INDEX `autroID_idx` (`autorID` ASC) VISIBLE,
+  INDEX `ISBN_idx` (`ISBN` ASC) VISIBLE,
+  CONSTRAINT `autroID1`
+    FOREIGN KEY (`autorID`)
+    REFERENCES `biblioteke_task5`.`Autori` (`autorID`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `ISBN1`
+    FOREIGN KEY (`ISBN`)
+    REFERENCES `biblioteke_task5`.`Knjige` (`ISBN`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `biblioteke_task5`.`IzdavanjeKnjiga` (
+  `izdataKnjigaID` INT NOT NULL,
+  `bibliotekarID` INT NOT NULL,
+  `clanID` INT NOT NULL,
+  `datumIzdavanja` DATE NOT NULL,
+  `datumVracanja` DATE NOT NULL,
+  `ISBN` INT NOT NULL,
+  PRIMARY KEY (`izdataKnjigaID`),
+  INDEX `bibliotekarID_idx` (`bibliotekarID` ASC) VISIBLE,
+  INDEX `clanID_idx` (`clanID` ASC) VISIBLE,
+  INDEX `knjigaID_idx` (`ISBN` ASC) VISIBLE,
+  CONSTRAINT `bibliotekarID1`
+    FOREIGN KEY (`bibliotekarID`)
+    REFERENCES `biblioteke_task5`.`Bibliotekari` (`bibliotekarID`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `clanID1`
+    FOREIGN KEY (`clanID`)
+    REFERENCES `biblioteke_task5`.`Clanovi` (`clanID`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `knjigaID1`
+    FOREIGN KEY (`ISBN`)
+    REFERENCES `biblioteke_task5`.`Knjige` (`ISBN`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+

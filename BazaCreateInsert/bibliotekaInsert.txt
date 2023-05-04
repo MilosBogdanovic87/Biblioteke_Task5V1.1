@@ -1,0 +1,54 @@
+INSERT INTO `biblioteke_task5`.`Biblioteke` (`PIB`, `naziv`, `ulica`, `broj`, `mesto`, `telefon`) 
+VALUES ('123456', 'Narodna biblioteka', 'Trg Republike', '1', 'Beograd', '011/123-456');
+INSERT INTO `biblioteke_task5`.`Biblioteke` (`PIB`, `naziv`, `ulica`, `broj`, `mesto`, `telefon`) 
+VALUES ('654321', 'Gradska biblioteka', 'Kralja Petra', '55', 'Novi Sad', '021/987-654');
+
+INSERT INTO `biblioteke_task5`.`Bibliotekari` (`bibliotekarID`, `ime`, `prezime`, `ulica`, `broj`, `mesto`, `jmbg`, `telefon`, `PIB`) 
+VALUES ('1', 'Ana', 'Anić', 'Bulevar Kralja Aleksandra', '100', 'Beograd', '0101001900012', '064/123-456', '123456');
+INSERT INTO `biblioteke_task5`.`Bibliotekari` (`bibliotekarID`, `ime`, `prezime`, `ulica`, `broj`, `mesto`, `jmbg`, `telefon`, `PIB`) 
+VALUES ('2', 'Marko', 'Marković', 'Bulevar Oslobođenja', '50', 'Novi Sad', '0101005900012', '021/987-654', '654321');
+
+INSERT INTO biblioteke_task5.Clanovi (clanID, Ime, prezime, datumRodjenja, telefon, ulica, broj, mesto, brojClanske)
+VALUES
+('1', 'Maja', 'Majić', '1995-05-15', '+381641234567', 'Bulevar Oslobođenja', '15', 'Novi Sad', 'NS001'),
+('2', 'Marko', 'Marković', '1988-08-12', '+381621234567', 'Knez Mihailova', '27', 'Beograd', 'BG002');
+
+INSERT INTO biblioteke_task5.bibliotekeClanovi (bibliotekeClanoviID, PIB, clanID)
+VALUES
+('1', '123456', '1'),
+('2', '654321', '2');
+
+INSERT INTO naucinoOd (`naucnoID`, `nazivOblasti`) 
+VALUES ('1', 'Matematika'), ('2', 'Fizika');
+
+INSERT INTO `biblioteke_task5`.`PozajmnoOd` (`pozajmnoID`, `aktuelnost`, `zanr`) 
+VALUES ('1', 'aktuelna', 'drama'),
+       ('2', 'neaktuelna', 'psihologija');
+	   
+INSERT INTO `biblioteke_task5`.`decijeOd` (`decijeID`, `uzrast`) VALUES
+('1', '12'),
+('2', '14');
+
+
+
+INSERT INTO biblioteke_task5.Knjige (ISBN, naziv, jezik, izdavač, PIB)
+VALUES ('97801', 'To Kill a Mockingbird', 'English', 'Penguin Books', '123456'),
+('9780', 'The Catcher in the Rye', 'English', 'Penguin Classics', '654321');
+
+INSERT INTO biblioteke_task5.knjigeOdeljenja (knjigeOdeljenjaID, decijeID, naucnoID, pozajmnoID, ISBN)
+VALUES ('1', '1', '1', '1', '97801');
+INSERT INTO biblioteke_task5.knjigeOdeljenja (knjigeOdeljenjaID, decijeID, naucnoID, pozajmnoID, ISBN)
+VALUES ('2', '2', '2', '2', '9780');
+
+INSERT INTO biblioteke_task5.Autori (autorID, imeAutora, prezimeAutora)
+VALUES ('1', 'Harper', 'Lee'),
+('2', 'J.D.', 'Salinger');
+
+INSERT INTO biblioteke_task5.knjigeAutori (knjigaAutorID, autorID, ISBN)
+VALUES ('1', '1', '97801'), ('2', '2', '9780');
+
+INSERT INTO `biblioteke_task5`.`IzdavanjeKnjiga` 
+(`izdataKnjigaID`, `bibliotekarID`, `clanID`, `datumIzdavanja`, `datumVracanja`, `ISBN`) 
+VALUES 
+(1, 1, 1, '2023-05-01', '2023-05-08', "97801"),
+(2, 2, 2, '2023-05-02', '2023-05-09', '9780');

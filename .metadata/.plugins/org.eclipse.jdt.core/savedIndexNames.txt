@@ -1,0 +1,6 @@
+INDEX VERSION 1.131+C:\Users\bogda\Desktop\TASK5\Task5\.metadata\.plugins\org.eclipse.jdt.core
+42610692.index
+809334172.index
+1990214599.index
+1865797976.index
+591163985.index
