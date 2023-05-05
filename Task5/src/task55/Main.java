@@ -1,4 +1,4 @@
-package milosbogdanovic;
+package task55;
 
 import java.sql.SQLException;
 import java.util.Scanner;
