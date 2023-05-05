@@ -1,4 +1,4 @@
-package milosbogdanovic;
+package task55;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
